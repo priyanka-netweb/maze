@@ -1,27 +1,22 @@
-const DIRECTIONS = [
-    { dx: 0, dy: -1 }, // Up
-    { dx: 1, dy: 0 },  // Right
-    { dx: 0, dy: 1 },  // Down
-    { dx: -1, dy: 0 }  // Left
-];
+import DIRECTIONS from './direction.js';
 
 let maze = [];
 let currentX, currentY;
 let direction = 2; // Start facing down
 let interval;
 
-function initializeWallFollower(mazeData) {
+export function initializeRightWallFollower(mazeData) {
     maze = mazeData;
 
     // Start position at bottom left
     currentX = 1;
-    currentY = maze.length - 2; //inside the walls
+    currentY = maze.length - 2;
 
     direction = 2; // Facing down
     drawCurrentPosition();
 
-    // Start moving with an interval for animation effect
-    interval = setInterval(moveWallFollower, 100);
+    // Start Right Wall Following
+    interval = setInterval(moveRightWallFollower, 50);
 }
 
 function drawCurrentPosition() {
@@ -41,21 +36,20 @@ function drawCurrentPosition() {
     }
 }
 
-
-function moveWallFollower() {
+function moveRightWallFollower() {
     if (currentX === maze[0].length - 2 && currentY === 1) {
         clearInterval(interval);
         console.log('Solved!');
         return;
     }
 
-    // Try turning Right first
+    // Try turning right first
     let rightDirection = (direction + 1) % 4;
     let rightX = currentX + DIRECTIONS[rightDirection].dx;
     let rightY = currentY + DIRECTIONS[rightDirection].dy;
 
     if (maze[rightY][rightX] === 0) {
-        direction = leftDirection;
+        direction = rightDirection;
         currentX = rightX;
         currentY = rightY;
     } else {
@@ -66,6 +60,7 @@ function moveWallFollower() {
             currentX = forwardX;
             currentY = forwardY;
         } else {
+            // Turn left if both right and forward are blocked
             direction = (direction + 3) % 4;
         }
     }

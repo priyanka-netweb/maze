@@ -1,27 +1,22 @@
-const DIRECTIONS = [
-    { dx: 0, dy: -1 }, // Up
-    { dx: 1, dy: 0 },  // Right
-    { dx: 0, dy: 1 },  // Down
-    { dx: -1, dy: 0 }  // Left
-];
+import DIRECTIONS from './direction.js';
 
 let maze = [];
 let currentX, currentY;
 let direction = 2; // Start facing down
 let interval;
 
-function initializeWallFollower(mazeData) {
+export function initializeLeftWallFollower(mazeData) {
     maze = mazeData;
 
     // Start position at bottom left
     currentX = 1;
-    currentY = maze.length - 2; //inside the walls
+    currentY = maze.length - 2; 
 
-    direction = 2; // Facing down
+    direction = 0; // Facing down
     drawCurrentPosition();
 
-    // Start moving with an interval for animation effect
-    interval = setInterval(moveWallFollower, 100);
+    // Start Left Wall Following
+    interval = setInterval(moveLeftWallFollower, 50);
 }
 
 function drawCurrentPosition() {
@@ -42,7 +37,7 @@ function drawCurrentPosition() {
 }
 
 
-function moveWallFollower() {
+function moveLeftWallFollower() {
     if (currentX === maze[0].length - 2 && currentY === 1) {
         clearInterval(interval);
         console.log('Solved!');
